@@ -1,67 +1,83 @@
 #!/bin/bash
 
-# Update and Upgrade System
-echo "Updating and Upgrading your System.."
-sudo apt-get update && sudo apt-get upgrade -y
+# Periksa apakah pengguna menjalankan skrip sebagai root
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run as root"
+  exit
+fi
 
-# Install Python3 and PIP
-echo "Installing Python3 and PIP..."
-sudo apt-get install python3 python3-pip -y
+echo "Updating and installing prerequisites..."
+sudo apt-get update
 
-# Install curl and jq
-echo "Installing curl and jq..."
-sudo apt-get install curl jq -y
+# Install prerequisites
+sudo apt-get install -y curl git jq awk sed grep build-essential
 
-# Install GoLang
-echo "Installing Go..."
-wget https://golang.org/dl/go1.18.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf go1.18.linux-amd64.tar.gz
-echo "export PATH=$PATH:/usr/local/go/bin" >> $HOME/.profile
-source $HOME/.profile
-rm go1.18.linux-amd64.tar.gz
-
-# Check Go installation
-go version
+# Install Go (Golang)
+if ! command -v go &> /dev/null
+then
+    echo "Go not found, installing..."
+    wget https://go.dev/dl/go1.20.7.linux-amd64.tar.gz
+    sudo tar -C /usr/local -xzf go1.20.7.linux-amd64.tar.gz
+    rm go1.20.7.linux-amd64.tar.gz
+    export PATH=$PATH:/usr/local/go/bin
+    echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.bashrc
+    source ~/.bashrc
+else
+    echo "Go is already installed"
+fi
 
 # Install Subfinder
 echo "Installing Subfinder..."
-GO111MODULE=on go get -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder
+go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 
-# Install Assetfinder
-echo "Installing Assetfinder..."
-go get -u github.com/tomnomnom/assetfinder
-
-# Install Chaos
-echo "Installing Chaos..."
-GO111MODULE=on go get -v github.com/projectdiscovery/chaos-client/cmd/chaos
+# Install Anew
+echo "Installing Anew..."
+go install -v github.com/tomnomnom/anew@latest
 
 # Install Findomain
 echo "Installing Findomain..."
-wget https://github.com/Edu4rdSHL/findomain/releases/latest/download/findomain-linux
+curl -LO https://github.com/Findomain/Findomain/releases/latest/download/findomain-linux
 chmod +x findomain-linux
 sudo mv findomain-linux /usr/local/bin/findomain
 
-# Install Gau
+# Install Cero
+echo "Installing Cero..."
+go install github.com/glebarez/cero@latest
+
+# Install Shosubgo
+echo "Installing Shosubgo..."
+go install -v github.com/incogbyte/shosubgo/cmd/shosubgo@latest
+
+# Install Gau (Get All URLs)
 echo "Installing Gau..."
-GO111MODULE=on go get -u -v github.com/lc/gau
+go install github.com/lc/gau/v2/cmd/gau@latest
 
 # Install Unfurl
 echo "Installing Unfurl..."
-go get -u github.com/tomnomnom/unfurl
+go install github.com/tomnomnom/unfurl@latest
 
 # Install Waybackurls
 echo "Installing Waybackurls..."
-go get github.com/tomnomnom/waybackurls
+go install github.com/tomnomnom/waybackurls@latest
 
-# Install httpx
-echo "Installing httpx..."
-GO111MODULE=on go get -v github.com/projectdiscovery/httpx/cmd/httpx
+# Install Dnsx
+echo "Installing Dnsx..."
+go install -v github.com/projectdiscovery/dnsx/cmd/dnsx@latest
 
-# Additional tools installation here...
+# Install Seclists
+echo "Installing Seclists..."
+sudo apt-get install -y seclists
 
-# Final System Update and Clean
-echo "Final System Update and Cleaning Up..."
-sudo apt-get update && sudo apt-get upgrade -y
-sudo apt-get autoremove -y
+# Install Assetfinder
+echo "Installing Assetfinder..."
+go install github.com/tomnomnom/assetfinder@latest
+
+# Install Nuclei
+echo "Installing Nuclei..."
+go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
+
+# Install Httpx
+echo "Installing Httpx..."
+go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 
 echo "All tools installed successfully!"
