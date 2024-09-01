@@ -16,8 +16,8 @@ sudo apt-get install -y curl git jq awk sed grep build-essential
 if ! command -v go &> /dev/null
 then
     echo "Go not found, installing..."
-    wget https://go.dev/dl/go1.20.7.linux-amd64.tar.gz
-    sudo tar -C /usr/local -xzf go1.20.7.linux-amd64.tar.gz
+    wget https://go.dev/dl/go1.23.0.linux-amd64.tar.gz
+    sudo tar -C /usr/local -xzf go1.23.0.linux-amd64.tar.gz
     rm go1.20.7.linux-amd64.tar.gz
     export PATH=$PATH:/usr/local/go/bin
     echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.bashrc
