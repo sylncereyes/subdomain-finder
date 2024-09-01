@@ -41,7 +41,7 @@ Sebelum menjalankan skrip, pastikan Anda memiliki alat-alat berikut terinstal:
 
 1. **Jalankan skrip dengan parameter domain:**
     ```bash
-    ./subdomain_enum.sh example.com
+    ./scan.sh example.com
     ```
 
     Gantilah `example.com` dengan domain yang ingin Anda lakukan enumerasi subdomainnya.
@@ -60,4 +60,4 @@ Sebelum menjalankan skrip, pastikan Anda memiliki alat-alat berikut terinstal:
 ## Contoh Penggunaan
 
 ```bash
-./subdomain_enum.sh example.com
+./scan.sh example.com
