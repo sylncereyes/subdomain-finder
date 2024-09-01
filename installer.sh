@@ -18,7 +18,7 @@ then
     echo "Go not found, installing..."
     wget https://go.dev/dl/go1.23.0.linux-amd64.tar.gz
     sudo tar -C /usr/local -xzf go1.23.0.linux-amd64.tar.gz
-    rm go1.20.7.linux-amd64.tar.gz
+    rm go1.23.0.linux-amd64.tar.gz
     export PATH=$PATH:/usr/local/go/bin
     echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.bashrc
     source ~/.bashrc
